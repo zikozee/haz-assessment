@@ -42,6 +42,7 @@ public class Assessment {
                 {"Software Design", "Computer Networks"}
         };
 
+        // build student course track
         List<String> coursesTrack = buildStudentCourseTrack(prereqs_courses);
 
         // function 1 call - halfway course
