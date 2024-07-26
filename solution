@@ -1,0 +1,107 @@
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+public class Assessment {
+    public static void main(String[] args) {
+
+          /*
+            PSEUDOCODE
+            if course exist:
+              if prerequisite exist: insert prerequisite at course index and shift others to the right
+              else:
+                    if prerequisite index is greater than course index:
+                         insert prerequisite at course index and shift others to the right
+                         remove the prerequisite from the previous position
+
+            else:
+              if prerequisite exist: add course before prerequisite
+              else:
+                append prerequisite
+                append course
+
+
+            TIME-COMPLEXITY -> O(N) : looping through the list once to access (prerequisite, course)
+
+        */
+
+
+
+        String[][] prereqs_courses = new String[][] {
+
+                {"Data Structures", "Algorithms"},
+
+                {"Foundations of Computer Science", "Operating Systems"},
+
+                {"Computer Networks", "Computer Architecture"},
+
+                {"Algorithms", "Foundations of Computer Science"},
+
+                {"Computer Architecture", "Data Structures"},
+
+                {"Software Design", "Computer Networks"}
+        };
+
+        List<String> coursesTrack = buildStudentCourseTrack(prereqs_courses);
+
+        // function 1 call - halfway course
+        // expected result :  Algorithms
+        System.out.println(halfwayCourse(coursesTrack));
+        // student course in order
+        // expected result: [Computer Architecture, Data Structures, Algorithms, Foundations of Computer Science, Operating Systems, Computer Networks]
+        System.out.println(coursesTrack);
+    }
+
+    public static List<String> buildStudentCourseTrack(String[][] prerequisitesCourses){
+
+        String[] prerequisites = new String[prerequisitesCourses.length];
+        String[] courses = new String[prerequisitesCourses.length];
+
+        for (int i = 0; i < prerequisitesCourses.length; i++) {
+            prerequisites[i] = prerequisitesCourses[i][0];
+            courses[i] = prerequisitesCourses[i][1];
+        }
+        System.out.println(Arrays.toString(prerequisites));
+        System.out.println(Arrays.toString(courses));
+
+        List<String> studentCourses = new ArrayList<>();
+
+        for (String[] preCourse : prerequisitesCourses) {
+            if (studentCourses.contains(preCourse[1])) {
+                if (!studentCourses.contains(preCourse[0])) {
+                    int courseIndex = studentCourses.indexOf(preCourse[1]);
+                    studentCourses.add(courseIndex, preCourse[0]);
+                } else {
+                    int prerequisiteIndex = studentCourses.indexOf(preCourse[0]);
+                    int courseIndex = studentCourses.indexOf(preCourse[1]);
+                    if (prerequisiteIndex > courseIndex) {
+                        studentCourses.add(courseIndex, preCourse[0]);
+                        studentCourses.remove(prerequisiteIndex + 1);
+                    }
+                }
+            } else {
+                int prerequisiteIndex = studentCourses.indexOf(preCourse[0]);
+                if (prerequisiteIndex > -1) {
+                    studentCourses.add(prerequisiteIndex + 1, preCourse[1]);
+                } else {
+                    studentCourses.add(preCourse[0]);
+                    studentCourses.add(preCourse[1]);
+                }
+            }
+        }
+
+        return studentCourses;
+    }
+
+
+    public static String halfwayCourse(List<String> courseTrack){
+        if(courseTrack.size() % 2 == 0){
+            final int firstMiddleIndex = (courseTrack.size()/2) -1;
+            return courseTrack.get(firstMiddleIndex);
+        }
+
+        final int middleIndex = (courseTrack.size()/2);
+        return courseTrack.get(middleIndex);
+    }
+
+}
