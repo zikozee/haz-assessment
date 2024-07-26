@@ -54,17 +54,6 @@ public class Assessment {
     }
 
     public static List<String> buildStudentCourseTrack(String[][] prerequisitesCourses){
-
-        String[] prerequisites = new String[prerequisitesCourses.length];
-        String[] courses = new String[prerequisitesCourses.length];
-
-        for (int i = 0; i < prerequisitesCourses.length; i++) {
-            prerequisites[i] = prerequisitesCourses[i][0];
-            courses[i] = prerequisitesCourses[i][1];
-        }
-        System.out.println(Arrays.toString(prerequisites));
-        System.out.println(Arrays.toString(courses));
-
         List<String> studentCourses = new ArrayList<>();
 
         for (String[] preCourse : prerequisitesCourses) {
